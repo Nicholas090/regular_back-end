@@ -1,4 +1,5 @@
-import { JwtPayload } from 'jsonwebtoken';
+import { IJwtPayload } from '../../interfaces';
+import { TokenWithoutUserModel } from '../../models/token.model';
 
 interface ITokens {
   accessToken: string;
@@ -6,10 +7,10 @@ interface ITokens {
 }
 
 export default interface ITokenService {
-  generateToken: (payload: unknown) => ITokens;
-  saveToken: (userId: number, refreshToken: unknown) => unknown;
-  removeToken: (refreshToken: string) => Promise<object>;
-  findToken: (refreshToken: string) => Promise<object>;
-  validateAccessToken: (token: string) => string | JwtPayload | null;
-  validateRefreshToken: (token: string) => string | JwtPayload | null;
+  generateToken: (payload: IJwtPayload) => ITokens;
+  saveToken: (userId: number, refreshToken: unknown) => Promise<void>;
+  removeToken: (refreshToken: string) => Promise<TokenWithoutUserModel>;
+  findToken: (refreshToken: string) => Promise<TokenWithoutUserModel>;
+  validateAccessToken: (token: string) =>  IJwtPayload | string;
+  validateRefreshToken: (token: string) =>  IJwtPayload | string;
 }

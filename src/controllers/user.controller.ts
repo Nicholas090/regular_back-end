@@ -5,6 +5,8 @@ import ILogger from '../logger/logger.service.interface';
 import { TYPES } from '../Types';
 import 'reflect-metadata';
 import IUserService from '../services/interfaces/user.service.interface';
+import { TypedRequestBody } from '../requestType';
+import { LoginBody, RegistrationBody } from '../request.interfaces';
 
 @injectable()
 class UserController implements IUserController {
@@ -13,12 +15,12 @@ class UserController implements IUserController {
     @inject(TYPES.UserService) private userService: IUserService,
   ) {}
 
-  async registration(req: Request, res: Response, next: NextFunction): Promise<object | void> {
+  async registration(req: TypedRequestBody<RegistrationBody>, res: Response, next: NextFunction): Promise<object | void> {
     try {
       this.logger.log('Registartion');
 
-      const { email, password, userNickName, userName } = req.body;
-      const user = await this.userService.registration(email, password, userNickName, userName);
+      const { email, password, nickname, name } = req.body;
+      const user = await this.userService.registration({ email, password, name, nickname });
       res.cookie('refreshToken', user.refreshToken, {
         maxAge: 30 * 24 * 68 * 68 * 1000,
         httpOnly: true,
@@ -30,11 +32,11 @@ class UserController implements IUserController {
     }
   }
 
-  async login(req: Request, res: Response, next: NextFunction): Promise<any> {
+  async login(req: TypedRequestBody<LoginBody>, res: Response, next: NextFunction): Promise<any> {
     try {
       this.logger.log('login');
       const { email, password } = req.body;
-      const userData = await this.userService.login(email, password);
+      const userData = await this.userService.login({ email, password });
       res.cookie('refreshToken', userData.refreshToken, {
         maxAge: 30 * 24 * 68 * 68 * 1000,
         httpOnly: true,
@@ -45,10 +47,10 @@ class UserController implements IUserController {
     }
   }
 
-  async logout(req: Request, res: Response, next: NextFunction): Promise<any> {
+  async logout(req: Request, res: Response, next: NextFunction): Promise<Response> {
     try {
       this.logger.log('logout');
-      const { refreshToken } = req.cookies;
+      const { refreshToken } = req.cookies as { refreshToken: string };
       const token = await this.userService.logout(refreshToken);
       res.clearCookie('refreshToken');
       return res.json(token);
@@ -59,7 +61,7 @@ class UserController implements IUserController {
   async refresh(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       this.logger.log('Refresh Token');
-      const { refreshToken } = req.cookies;
+      const { refreshToken } = req.cookies as { refreshToken: string };
       const userData = await this.userService.refresh(refreshToken);
       res.cookie('refreshToken', userData.refreshToken, {
         maxAge: 30 * 24 * 68 * 68 * 1000,

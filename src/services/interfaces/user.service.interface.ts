@@ -1,11 +1,8 @@
+import { LoginBody, RegistrationBody } from '../../request.interfaces';
+
 export default interface IUserService {
-  registration: (
-    email: string,
-    password: string,
-    userName: string,
-    userNickName: string,
-  ) => Promise<IUserServiceReturn>;
-  login: (email: string, password: string, userNickName?: string) => Promise<IUserServiceReturn>;
+  registration: (data: RegistrationBody) => Promise<IUserServiceReturn>;
+  login: (data: LoginBody) => Promise<IUserServiceReturn>;
   logout: (refreshToken: string) => Promise<object>;
   refresh: (refreshToken: string) => Promise<IUserServiceReturn>;
 }
