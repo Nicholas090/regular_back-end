@@ -5,6 +5,7 @@ import { TYPES } from './Types';
 import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as cors from 'cors';
+import * as cookieParser from 'cookie-parser';
 import { Express } from 'express';
 
 
@@ -26,6 +27,7 @@ appContainer.load(appBindings);
 const logger = appContainer.get<ILogger>(TYPES.ILogger);
 const PORT = process.env.PORT;
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors(corsOptions));
 
 const start = async (): Promise<void> => {
