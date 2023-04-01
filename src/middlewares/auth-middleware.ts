@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import ApiError from '../exceptions/api.error';
 import { appContainer } from '../main';
-import { TYPES } from '../Types';
+import  TYPES  from '../Types';
 import ITokenService from '../services/interfaces/token.service.interface';
 
 export default function (req: Request, res: Response, next: NextFunction): void {

@@ -1,13 +1,12 @@
 import { injectable, inject } from 'inversify';
 import { NextFunction, Request, Response } from 'express';
-import IUserController from './user.controller.interface';
+import IUserController from './interfaces/user.controller.interface';
 import ILogger from '../logger/logger.service.interface';
-import { TYPES } from '../Types';
-import 'reflect-metadata';
+import TYPES  from '../Types';
 import IUserService from '../services/interfaces/user.service.interface';
 import { TypedRequestBody } from '../requestType';
 import { LoginBody, RegistrationBody } from '../request.interfaces';
-
+import 'reflect-metadata';
 @injectable()
 class UserController implements IUserController {
   constructor(
@@ -20,6 +19,7 @@ class UserController implements IUserController {
       this.logger.log('Registartion');
 
       const { email, password, nickname, name } = req.body;
+
       const user = await this.userService.registration({ email, password, name, nickname });
       res.cookie('refreshToken', user.refreshToken, {
         maxAge: 30 * 24 * 68 * 68 * 1000,

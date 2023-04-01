@@ -12,4 +12,31 @@ export interface LoginBody {
   nickname?: string;
 }
 
+export interface CreatePostBody {
+  title: string;
+  content?: string;
+  imageUrl: string;
+  authorId: number;
+}
+
+export interface GetByIdPostBody {
+  id: number;
+}
+
+export interface GetPostsBody {
+  id: number;
+  title?: string;
+  content?: string;
+  imageUrl?: string;
+}
+
+export interface UpdatePostByIdBody {
+  page: number;
+  perPage: number;
+}
+
+export interface DeletePostBody {
+  id: number;
+}
+
 

@@ -5,7 +5,7 @@ const tokenWithoutUser = Prisma.validator<Prisma.TokenArgs>()({
 });
 
 const tokenWithUser = Prisma.validator<Prisma.TokenArgs>()({
-  include: { user: true},
+  include: { user: true },
 });
 
 export type TokenWithUserModel = Prisma.TokenGetPayload<typeof tokenWithUser>;

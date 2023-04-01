@@ -1,15 +1,12 @@
-import { JwtPayload, Secret, sign, verify } from 'jsonwebtoken';
-import ITokenService from './interfaces/token.service.interface';
 import { injectable } from 'inversify';
-import 'reflect-metadata';
+import { Secret, sign, verify } from 'jsonwebtoken';
+import ITokenService from './interfaces/token.service.interface';
 import prisma from '../prisma';
 import { IJwtPayload } from '../interfaces';
 import { TokenWithoutUserModel } from '../models/token.model';
-
+import 'reflect-metadata';
 @injectable()
 class TokenService implements ITokenService {
-
-
   generateToken(payload: IJwtPayload): { accessToken: string; refreshToken: string } {
 	  // Todo: update interface for payload
     const accessToken = sign(payload, process.env.JWT_ACCESS_SECRET as Secret, {

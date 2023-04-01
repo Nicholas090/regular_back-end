@@ -1,15 +1,14 @@
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt'
 import IUserService, { IUserServiceReturn } from './interfaces/user.service.interface';
 import ApiError from '../exceptions/api.error';
 import { inject, injectable } from 'inversify';
-import { TYPES } from '../Types';
+import  TYPES  from '../Types';
 import ITokenService from './interfaces/token.service.interface';
-import 'reflect-metadata';
 import prisma from '../prisma';
 import { LoginBody, RegistrationBody } from '../request.interfaces';
 import { UserWithoutPostsModel } from '../models/user.model';
-import {IJwtPayload} from "../interfaces";
-
+import { IJwtPayload } from '../interfaces';
+import 'reflect-metadata';
 @injectable()
 export class UserService implements IUserService {
   constructor(
@@ -28,14 +27,16 @@ export class UserService implements IUserService {
       if (candidate) {
         ApiError.BadRequest(`User with this Email: ${email} already exists`);
       }
-      const hashPassword = await bcrypt.hash(password, 3);
+      console.log('hashPassword');
+
+      const hashPassword = await bcrypt.hash(password, 11 )
+      console.log(hashPassword);
       const user = await prisma.user.create({ data: ({
         email,
         password: hashPassword,
         nickname,
         name,
         role: 'user',
-        posts: [],
       } as unknown as UserWithoutPostsModel),  select: {
         id: true,
         email: true,
@@ -52,6 +53,7 @@ export class UserService implements IUserService {
         user,
       };
     } catch (e) {
+      console.log(e);
       ApiError.InternalError(e);
     }
   }

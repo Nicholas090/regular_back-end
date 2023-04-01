@@ -1,10 +1,10 @@
 import { Prisma } from '@prisma/client';
 
- const userWithPosts = Prisma.validator<Prisma.UserArgs>()({
+const userWithPosts = Prisma.validator<Prisma.UserArgs>()({
   include: { posts: true },
 });
 
- const userWithoutPosts = Prisma.validator<Prisma.UserArgs>()({
+const userWithoutPosts = Prisma.validator<Prisma.UserArgs>()({
   include: { posts: false },
 });
 export type UserWithPostsModel = Prisma.UserGetPayload<typeof userWithPosts>;

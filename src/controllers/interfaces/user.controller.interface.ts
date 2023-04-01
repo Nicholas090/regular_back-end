@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { TypedRequestBody } from '../requestType';
-import { LoginBody, RegistrationBody } from '../request.interfaces';
+import { TypedRequestBody } from '../../requestType';
+import { LoginBody, RegistrationBody } from '../../request.interfaces';
 
 export default interface IUserController {
   registration: (req: TypedRequestBody<RegistrationBody>, res: Response, next: NextFunction) => void;
