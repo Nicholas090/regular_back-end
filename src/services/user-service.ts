@@ -79,11 +79,11 @@ export class UserService implements IUserService {
         );
       }
 
-      // todo: mb delete token from user response
+      delete user.password;
 
       const tokens = this.TokenService.generateToken({ id: user.id });
-
       await this.TokenService.saveToken(user.id, tokens.refreshToken);
+
       return {
         ...tokens,
         user,
@@ -112,7 +112,6 @@ export class UserService implements IUserService {
         name: true,
         role: true,
         nickname: true,
-        token: true,
       } });
 
       const tokenFromDb = await this.TokenService.findToken(refreshToken);

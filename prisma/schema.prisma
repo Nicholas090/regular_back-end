@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -29,12 +30,16 @@ model Post {
 
 model Token {
   id           Int    @id @default(autoincrement())
-  refreshToken String @unique
+  refreshToken String @db.Text
   userId       Int    @unique
   user         User   @relation(fields: [userId], references: [id])
+
+  @@fulltext([refreshToken])
 }
 
 enum UserRole {
   admin
   user
 }
+
+

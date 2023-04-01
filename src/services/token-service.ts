@@ -23,7 +23,7 @@ class TokenService implements ITokenService {
   async saveToken(userId: number, refreshToken: string): Promise<void> {
     try {
       const tokenData = await prisma.token.findUnique({ where: { userId } });
-
+      console.log(tokenData);
       if (tokenData) {
         await prisma.token.update({ where: { userId }, data: { refreshToken } });
         return;
@@ -55,7 +55,7 @@ class TokenService implements ITokenService {
 
   async findToken(refreshToken: string): Promise<TokenWithoutUserModel> {
     try {
-      const tokenData = await prisma.token.findUnique(
+      const tokenData = await prisma.token.findFirst(
         { where: { refreshToken },
           select: { refreshToken: true, userId: true, id: true },
         });
@@ -68,11 +68,16 @@ class TokenService implements ITokenService {
 
   async removeToken(refreshToken: string): Promise<TokenWithoutUserModel> {
     try {
-      const tokenData = await  prisma.token.delete(
+      const { id } = await prisma.token.findFirst(
         { where: { refreshToken },
+          select: {  id: true },
+        });
+
+      const deleteTokeData = await prisma.token.delete(
+        { where: { id },
           select: { refreshToken: true, userId: true, id: true },
         });
-      return tokenData;
+      return deleteTokeData;
     } catch (e) {
       console.log(e);
       return e;
