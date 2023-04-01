@@ -9,14 +9,20 @@ import * as cookieParser from 'cookie-parser';
 import { Express } from 'express';
 import IUserController from './controllers/interfaces/user.controller.interface';
 import errorMiddleware from './middlewares/error.middleware';
-import TokenService from './services/token-service';
+import TokenService from './services/token.service';
 import UserController from './controllers/user.controller';
 import IUserService from './services/interfaces/user.service.interface';
-import { UserService } from './services/user-service';
+import { UserService } from './services/user.service';
 import ITokenService from './services/interfaces/token.service.interface';
-import UserRouter from './routers/userRouter';
-import IUserRouter from './routers/interfaces/userRouter.interface';
+import UserRouter from './routers/user.router';
+import IUserRouter from './routers/interfaces/user.router.interface';
+import IPostController from './controllers/interfaces/post.controller.interface';
+import IPostService from './services/interfaces/post.service.interface';
+import { PostService } from './services/post.service';
+import PostController from './controllers/post.controller';
 import 'reflect-metadata';
+import PostRouter from './routers/post.router';
+import IPostRouter from './routers/interfaces/post.rouer.interface';
 
 dotenv.config();
 const app: Express = express();
@@ -33,6 +39,9 @@ const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<IUserService>(TYPES.UserService).to(UserService);
   bind<ITokenService>(TYPES.TokenService).to(TokenService);
   bind<IUserController>(TYPES.UserController).to(UserController);
+  bind<IPostController>(TYPES.PostController).to(PostController);
+  bind<IPostService>(TYPES.PostService).to(PostService);
+  bind<IPostRouter>(TYPES.PostRouter).to(PostRouter);
   bind<IUserRouter>(TYPES.UserRouter).to(UserRouter);
 
 });
@@ -40,6 +49,7 @@ appContainer.load(appBindings);
 
 const logger = appContainer.get<ILogger>(TYPES.ILogger);
 const userRouter = appContainer.get<IUserRouter>(TYPES.UserRouter);
+const postRouter = appContainer.get<IPostRouter>(TYPES.PostRouter);
 
 const PORT = process.env.PORT;
 
@@ -47,6 +57,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use('/api', userRouter.init());
+app.use('/api/data', postRouter.init());
 app.use(errorMiddleware);
 const start = async (): Promise<void> => {
   try {

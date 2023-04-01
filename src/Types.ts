@@ -3,9 +3,9 @@ export default {
   UserController: Symbol.for('UserController'),
   UserService: Symbol.for('UserService'),
   TokenService: Symbol.for('TokenService'),
+  PostController: Symbol.for('PostController'),
+  PostService: Symbol.for('PostService'),
   UserRouter: Symbol.for('UserRouter'),
-
-  // PostController: Symbol.for('PostController'),
-  // PostService: Symbol.for('PostService'),
+  PostRouter: Symbol.for('PostRouter'),
 };
 

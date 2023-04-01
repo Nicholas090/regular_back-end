@@ -19,20 +19,16 @@ export interface CreatePostBody {
   authorId: number;
 }
 
-export interface GetByIdPostBody {
-  id: number;
+export interface GetPostsBody {
+  page: number;
+  perPage: number;
 }
 
-export interface GetPostsBody {
+export interface UpdatePostByIdBody {
   id: number;
   title?: string;
   content?: string;
   imageUrl?: string;
-}
-
-export interface UpdatePostByIdBody {
-  page: number;
-  perPage: number;
 }
 
 export interface DeletePostBody {

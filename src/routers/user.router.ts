@@ -1,4 +1,4 @@
-import authMiddleware from '../middlewares/auth-middleware';
+import authMiddleware from '../middlewares/auth.middleware';
 import { createUserValid } from '../middlewares/registration.validator.middleware';
 import { Router } from 'express';
 import IUserController from '../controllers/interfaces/user.controller.interface';
