@@ -55,6 +55,7 @@ class PostController implements IPostController {
       next(e);
     }
   }
+  
   async update(req: TypedRequestBody<UpdatePostByIdBody>, res: Response, next: NextFunction): Promise<Response> {
     try {
       this.logger.log('update');
@@ -80,8 +81,6 @@ class PostController implements IPostController {
       next(e);
     }
   }
-
-  
 }
 
 export default PostController;

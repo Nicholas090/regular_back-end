@@ -6,7 +6,9 @@ import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as cors from 'cors';
 import * as cookieParser from 'cookie-parser';
-import { Express } from 'express';
+import * as multer from 'multer';
+import * as fs from 'fs';
+import { Express, Request, Response } from 'express';
 import IUserController from './controllers/interfaces/user.controller.interface';
 import errorMiddleware from './middlewares/error.middleware';
 import TokenService from './services/token.service';
@@ -20,13 +22,29 @@ import IPostController from './controllers/interfaces/post.controller.interface'
 import IPostService from './services/interfaces/post.service.interface';
 import { PostService } from './services/post.service';
 import PostController from './controllers/post.controller';
-import 'reflect-metadata';
 import PostRouter from './routers/post.router';
 import IPostRouter from './routers/interfaces/post.rouer.interface';
+import authMiddleware from './middlewares/auth.middleware';
+import 'reflect-metadata';
 
 dotenv.config();
 const app: Express = express();
 export const appContainer = new Container();
+
+
+const storage = multer.diskStorage({
+  destination: (_, __, cb) => {
+    if (!fs.existsSync('uploads')) {
+      fs.mkdirSync('uploads');
+    }
+    cb(null, 'uploads');
+  },
+  filename: (_, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage });
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -56,6 +74,12 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
+app.use('/uploads', express.static('uploads'));
+app.post('/upload', authMiddleware, upload.single('image'), (req: Request, res: Response) => {
+  res.json({
+    url: `/uploads/${req.file.originalname}`,
+  });
+});
 app.use('/api', userRouter.init());
 app.use('/api/data', postRouter.init());
 app.use(errorMiddleware);
