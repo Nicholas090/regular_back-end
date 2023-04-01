@@ -1,3 +1,8 @@
+import { JwtPayload } from 'jsonwebtoken';
+
+export interface IJwtPayload extends JwtPayload {
+  id: number,
+}
 
 export interface RegistrationBody {
   email: string;

@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt';
 import IUserService, { IUserServiceReturn } from './interfaces/user.service.interface';
 import ApiError from '../exceptions/api.error';
 import { inject, injectable } from 'inversify';
@@ -7,7 +7,7 @@ import ITokenService from './interfaces/token.service.interface';
 import prisma from '../prisma';
 import { LoginBody, RegistrationBody } from '../request.interfaces';
 import { UserWithoutPostsModel } from '../models/user.model';
-import { IJwtPayload } from '../interfaces';
+import { IJwtPayload } from '../request.interfaces';
 import 'reflect-metadata';
 @injectable()
 export class UserService implements IUserService {
@@ -29,7 +29,7 @@ export class UserService implements IUserService {
       }
       console.log('hashPassword');
 
-      const hashPassword = await bcrypt.hash(password, 11 )
+      const hashPassword = await bcrypt.hash(password, 11 );
       console.log(hashPassword);
       const user = await prisma.user.create({ data: ({
         email,

@@ -1,4 +1,4 @@
-import { IJwtPayload } from '../../interfaces';
+import { IJwtPayload } from '../../request.interfaces';
 import { TokenWithoutUserModel } from '../../models/token.model';
 
 interface ITokens {

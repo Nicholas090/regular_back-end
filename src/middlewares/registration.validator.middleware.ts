@@ -56,7 +56,6 @@ const createUserValid = (req: TypedRequestBody<RegistrationBody>, res: Response,
 	  ApiError.validationUserError(errors[0]);
 	}
 
-	console.log('asdsaddsa')
 	next();
 };
 

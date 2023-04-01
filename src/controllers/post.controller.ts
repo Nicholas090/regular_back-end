@@ -15,7 +15,7 @@ class PostController implements IPostController {
     @inject(TYPES.PostService) private postService: IPostService,
   ) {}
 
-  async create(req: TypedRequestBody<CreatePostBody>, res: Response, next: NextFunction): Promise<Response>{
+  async create(req: TypedRequestBody<CreatePostBody>, res: Response, next: NextFunction): Promise<Response> {
     try {
       this.logger.log('create');
 
@@ -32,7 +32,7 @@ class PostController implements IPostController {
   async getById(req: Request, res: Response, next: NextFunction): Promise<Response>  {
     try {
       this.logger.log('getById');
-      console.log(req.params)
+      console.log(req.params);
 
       const id = +req.params.id;
       const post = await this.postService.getById({ id });
@@ -45,30 +45,30 @@ class PostController implements IPostController {
 
   async getPosts(req:  TypedRequestBody<GetPostsBody>, res: Response, next: NextFunction): Promise<Response> {
     try {
-        this.logger.log('getPosts');
+      this.logger.log('getPosts');
 
-        const { page, perPage } = req.body;
-        const posts = await this.postService.getPosts({ page, perPage });
-  
+      const { page, perPage } = req.body;
+      const posts = await this.postService.getPosts({ page, perPage });
+
       return res.json(posts);
     } catch (e) {
       next(e);
     }
   }
-  
+
   async update(req: TypedRequestBody<UpdatePostByIdBody>, res: Response, next: NextFunction): Promise<Response> {
     try {
       this.logger.log('update');
 
       const { id, content, title, imageUrl } = req.body;
-      const post = await this.postService.update({ id, content, title, imageUrl});
+      const post = await this.postService.update({ id, content, title, imageUrl });
 
-        return res.json(post);
+      return res.json(post);
     } catch (e) {
       next(e);
     }
   }
-  
+
   async delete(req: TypedRequestBody<DeletePostBody>, res: Response, next: NextFunction): Promise<Response> {
     try {
       this.logger.log('delete');
@@ -76,7 +76,7 @@ class PostController implements IPostController {
       const { id } = req.body;
       const post = await this.postService.update({ id });
 
-        return res.json(post);
+      return res.json(post);
     } catch (e) {
       next(e);
     }

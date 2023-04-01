@@ -15,11 +15,11 @@ class PostRouter {
 
   init() {
     const router: Router = Router();
-    router.post('/create', authMiddleware, validatePostRequestBody , this.postController.create.bind(this.postController));
-    router.get('/post/:id', this.postController.getById.bind(this.postController));
-    router.get('/posts', this.postController.getPosts.bind(this.postController));
-    router.patch('/update', authMiddleware ,this.postController.update.bind(this.postController));
-    router.delete('/delete', authMiddleware.bind(authMiddleware), this.postController.delete.bind(this.postController));
+    router.post('/create', authMiddleware, validatePostRequestBody, this.postController.create.bind(this.postController) as IPostController['create']);
+    router.get('/post/:id', this.postController.getById.bind(this.postController) as IPostController['getById']);
+    router.get('/posts', this.postController.getPosts.bind(this.postController) as IPostController['getPosts']);
+    router.patch('/update', authMiddleware, this.postController.update.bind(this.postController) as IPostController['update']);
+    router.delete('/delete', authMiddleware, this.postController.delete.bind(this.postController) as IPostController['delete']);
     return router;
   }
 

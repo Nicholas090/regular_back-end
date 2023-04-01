@@ -4,7 +4,10 @@ import { appContainer } from '../main';
 import  TYPES  from '../Types';
 import ITokenService from '../services/interfaces/token.service.interface';
 
-export default function (req: Request, res: Response, next: NextFunction): void {
+interface AuthenticatedRequest extends Request {
+  user: unknown;
+}
+export default function (req: AuthenticatedRequest, res: Response, next: NextFunction): void {
   const TokenService = appContainer.get<ITokenService>(TYPES.TokenService);
   try {
     const authorizationHeader = req.headers.authorization;
@@ -27,7 +30,6 @@ export default function (req: Request, res: Response, next: NextFunction): void 
       return next(ApiError.UnauthorizedError());
     }
 
-    //@ts-ignore
     req.user = userData;
     next();
   } catch (e) {

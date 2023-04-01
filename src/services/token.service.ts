@@ -2,7 +2,7 @@ import { injectable } from 'inversify';
 import { Secret, sign, verify } from 'jsonwebtoken';
 import ITokenService from './interfaces/token.service.interface';
 import prisma from '../prisma';
-import { IJwtPayload } from '../interfaces';
+import { IJwtPayload } from '../request.interfaces';
 import { TokenWithoutUserModel } from '../models/token.model';
 import 'reflect-metadata';
 @injectable()
