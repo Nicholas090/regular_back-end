@@ -81,7 +81,7 @@ app.post('/upload', authMiddleware, upload.single('image'), (req: Request, res: 
   });
 });
 app.use('/api', userRouter.init());
-app.use('/api/data', postRouter.init());
+app.use('/api', postRouter.init());
 app.use(errorMiddleware);
 const start = async (): Promise<void> => {
   try {
