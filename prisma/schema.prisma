@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
@@ -9,36 +9,36 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  password String
-  name     String
-  nickname String
-  role     UserRole
-  posts    Post[]
-  token    Token?
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  name      String
+  nickname  String
+  role      UserRole
+  posts     Post[]
+  token     Token?
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 }
 
 model Post {
-  id       Int     @id @default(autoincrement())
-  title    String
-  content  String
-  imageUrl String
-  authorId Int
-  author   User    @relation(fields: [authorId], references: [id])
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   Json
+  imageUrl  String
+  authorId  Int
+  author    User      @relation(fields: [authorId], references: [id])
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 }
 
 model Token {
-  id           Int    @id @default(autoincrement())
-  refreshToken String @db.Text
-  userId       Int    @unique
-  user         User   @relation(fields: [userId], references: [id])
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  id           Int       @id @default(autoincrement())
+  refreshToken String    @db.Text
+  userId       Int       @unique
+  user         User      @relation(fields: [userId], references: [id])
+  createdAt    DateTime? @default(now())
+  updatedAt    DateTime? @updatedAt
 
   @@fulltext([refreshToken])
 }
@@ -47,5 +47,3 @@ enum UserRole {
   admin
   user
 }
-
-
