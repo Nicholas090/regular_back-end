@@ -32,7 +32,6 @@ class PostController implements IPostController {
   async getById(req: Request, res: Response, next: NextFunction): Promise<Response>  {
     try {
       this.logger.log('getById');
-      console.log(req.params);
 
       const id = +req.params.id;
       const post = await this.postService.getById({ id });

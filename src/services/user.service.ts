@@ -27,10 +27,8 @@ export class UserService implements IUserService {
       if (candidate) {
         ApiError.BadRequest(`User with this Email: ${email} already exists`);
       }
-      console.log('hashPassword');
 
       const hashPassword = await bcrypt.hash(password, 11 );
-      console.log(hashPassword);
       const user = await prisma.user.create({ data: ({
         email,
         password: hashPassword,

@@ -23,7 +23,6 @@ class TokenService implements ITokenService {
   async saveToken(userId: number, refreshToken: string): Promise<void> {
     try {
       const tokenData = await prisma.token.findUnique({ where: { userId } });
-      console.log(tokenData);
       if (tokenData) {
         await prisma.token.update({ where: { userId }, data: { refreshToken } });
         return;
