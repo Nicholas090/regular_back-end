@@ -10,7 +10,7 @@ export default class ApiError extends Error implements IApiError   {
   }
 
   static UnauthorizedError(): ApiError {
-    throw new ApiError(404, 'User not authorized');
+    throw new ApiError(401, 'User not authorized');
   }
 
   static BadRequest(message: string, err?: Error[]): ApiError {

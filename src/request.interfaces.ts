@@ -19,7 +19,7 @@ export interface LoginBody {
 
 export interface CreatePostBody {
   title: string;
-  content?: string;
+  content: string;
   imageUrl: string;
   authorId: number;
 }

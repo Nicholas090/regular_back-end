@@ -74,10 +74,13 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
-app.use('/uploads', express.static('uploads'));
-app.post('/upload', authMiddleware, upload.single('image'), (req: Request, res: Response) => {
+app.use('/api/uploads', express.static('uploads'));
+app.post('/api/upload', authMiddleware, upload.single('file'), (req: Request, res: Response) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
   res.json({
-    url: `/uploads/${req.file.originalname}`,
+    url: `/api/uploads/${req.file.originalname}`,
   });
 });
 app.use('/api', userRouter.init());
@@ -87,7 +90,7 @@ const start = async (): Promise<void> => {
   try {
     app.listen(PORT, () => logger.log('Server started on port: ', PORT));
   } catch (e) {
-    console.log('Server error: ', e);
+    logger.error('Server error: ', e);
   }
 };
 
