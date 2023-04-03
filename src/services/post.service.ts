@@ -54,6 +54,7 @@ export class PostService implements IPostService {
             authorId: true,
             imageUrl: true,
             content: true,
+            createdAt: true,
           } },
       );
       if (!post) {
@@ -79,9 +80,11 @@ export class PostService implements IPostService {
           authorId: true,
           imageUrl: true,
           content: true,
+          createdAt: true,
         },
       });
       const totalCount = await prisma.post.count();
+
       return {
         totalCount,
         data: posts,
@@ -105,6 +108,7 @@ export class PostService implements IPostService {
             authorId: true,
             imageUrl: true,
             content: true,
+            createdAt: true,
           } },
       );
 

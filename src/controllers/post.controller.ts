@@ -42,12 +42,12 @@ class PostController implements IPostController {
     }
   }
 
-  async getPosts(req:  TypedRequestBody<GetPostsBody>, res: Response, next: NextFunction): Promise<Response> {
+  async getPosts(req: Request, res: Response, next: NextFunction): Promise<Response> {
     try {
       this.logger.log('getPosts');
 
-      const { page, perPage } = req.body;
-      const posts = await this.postService.getPosts({ page, perPage });
+      const { page, perPage } = req.query;
+      const posts = await this.postService.getPosts({ page: +page, perPage: +perPage });
 
       return res.json(posts);
     } catch (e) {
