@@ -87,6 +87,7 @@ export class UserService implements IUserService {
         user,
       };
     } catch (e) {
+      console.log(e)
       ApiError.InternalError(e);
     }
   }

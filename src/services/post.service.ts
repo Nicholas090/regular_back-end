@@ -1,7 +1,13 @@
 import ApiError from '../exceptions/api.error';
 import { injectable } from 'inversify';
 import prisma from '../prisma';
-import { CreatePostBody, DeletePostBody, GetPostsBody, UpdatePostByIdBody } from '../request.interfaces';
+import {
+  CreatePostBody,
+  DeletePostBody,
+  GetPostsBody,
+  GetPostsResponse,
+  UpdatePostByIdBody,
+} from '../request.interfaces';
 import IPostService from './interfaces/post.service.interface';
 import 'reflect-metadata';
 import { PostWithoutAuthorModel } from '../models/post.model';
@@ -59,7 +65,7 @@ export class PostService implements IPostService {
     }
   }
 
-  async getPosts({ page, perPage }: GetPostsBody): Promise<PostWithoutAuthorModel[]> {
+  async getPosts({ page, perPage }: GetPostsBody): Promise<GetPostsResponse> {
     try {
       const posts = await prisma.post.findMany({
         skip: page,
@@ -75,7 +81,34 @@ export class PostService implements IPostService {
           content: true,
         },
       });
-      return posts;
+      const totalCount = await prisma.post.count();
+      return {
+        totalCount,
+        data: posts,
+      };
+    } catch (e) {
+      ApiError.InternalError(e);
+    }
+  }
+
+  async getRandomPost(): Promise<PostWithoutAuthorModel> {
+    try {
+      const totalCount = await prisma.post.count();
+      const skip = Math.floor(Math.random() * totalCount);
+      const post = await prisma.post.findMany(
+        {
+          take: 1,
+          skip,
+          select: {
+            id: true,
+            title: true,
+            authorId: true,
+            imageUrl: true,
+            content: true,
+          } },
+      );
+
+      return post[0];
     } catch (e) {
       ApiError.InternalError(e);
     }

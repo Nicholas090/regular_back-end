@@ -18,6 +18,7 @@ class PostRouter {
     router.post('/create', authMiddleware, validatePostRequestBody, this.postController.create.bind(this.postController) as IPostController['create']);
     router.get('/post/:id', this.postController.getById.bind(this.postController) as IPostController['getById']);
     router.get('/posts', this.postController.getPosts.bind(this.postController) as IPostController['getPosts']);
+    router.get('/randomPost', this.postController.getRandomPost.bind(this.postController) as IPostController['getRandomPost']);
     router.patch('/update', authMiddleware, this.postController.update.bind(this.postController) as IPostController['update']);
     router.delete('/delete', authMiddleware, this.postController.delete.bind(this.postController) as IPostController['delete']);
     return router;

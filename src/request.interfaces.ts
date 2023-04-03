@@ -1,4 +1,5 @@
 import { JwtPayload } from 'jsonwebtoken';
+import { PostWithoutAuthorModel } from './models/post.model';
 
 export interface IJwtPayload extends JwtPayload {
   id: number,
@@ -27,6 +28,11 @@ export interface CreatePostBody {
 export interface GetPostsBody {
   page: number;
   perPage: number;
+}
+
+export interface GetPostsResponse {
+  totalCount: number,
+  data: PostWithoutAuthorModel[]
 }
 
 export interface UpdatePostByIdBody {

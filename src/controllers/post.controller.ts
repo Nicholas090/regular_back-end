@@ -55,6 +55,18 @@ class PostController implements IPostController {
     }
   }
 
+  async getRandomPost(req: Request, res: Response, next: NextFunction): Promise<Response> {
+    try {
+      this.logger.log('getRandomPost');
+
+      const post = await this.postService.getRandomPost();
+
+      return res.json(post);
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async update(req: TypedRequestBody<UpdatePostByIdBody>, res: Response, next: NextFunction): Promise<Response> {
     try {
       this.logger.log('update');
